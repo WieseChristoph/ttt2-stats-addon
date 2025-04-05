@@ -1,0 +1,6 @@
+{
+	"title": "TTT2 Stats",
+	"type": "ServerContent",
+	"tags": ["fun", "comic"],
+	"ignore": [".git/*", "README.md", ".github/"]
+}
