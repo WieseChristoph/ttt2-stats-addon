@@ -14,10 +14,7 @@ end
 
 -- create config.txt if it doesn't exist
 if not file.Exists("ttt2_stats/config.txt", "DATA") then
-  local config = {
-    website = "",
-  }
-  local configJson = util.TableToJSON(config)
+  local configJson = util.TableToJSON(API.config)
   file.Write("ttt2_stats/config.txt", configJson)
 end
 
@@ -25,7 +22,10 @@ end
 if file.Exists("ttt2_stats/config.txt", "DATA") then
   local configJson = file.Read("ttt2_stats/config.txt", "DATA")
   local config = util.JSONToTable(configJson)
-  API.config.website = config.website
+  API.config = {
+    website = config.website,
+    token = config.token,
+  }
 else
   log("Could not find config.txt")
 end

@@ -7,6 +7,7 @@ local API = {}
 
 API.config = {
   website = "",
+  token = "",
 }
 
 API.roundStats = {}
@@ -36,12 +37,20 @@ function API.log(msg)
 end
 
 function API:addMap(mapName)
+  if self.config.token == nil or self.config.token == "" then
+    API.log("Error: No token configured")
+    return
+  end
+
   API.log("Adding map " .. mapName)
   API.log("Adding map " .. self.config.website .. "/api/maps/" .. mapName)
 
   local request = {
     url     = self.config.website .. "/api/maps/" .. mapName,
     method  = "PUT",
+    headers = {
+      ["Authorization"] = "Bearer " .. self.config.token,
+    },
 
     success = function(code, body, headers)
       if code ~= 201 then
@@ -81,6 +90,7 @@ function API:addRound()
     url     = self.config.website .. "/api/maps/latest/rounds",
     method  = "PUT",
     headers = {
+      ["Authorization"] = "Bearer " .. self.config.token,
       ["Content-Type"] = "application/json",
     },
     body    = roundStatsJson,
