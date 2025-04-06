@@ -37,6 +37,11 @@ function API.log(msg)
 end
 
 function API:addMap(mapName)
+  if self.config.website == nil or self.config.website == "" then
+    API.log("Error: No website configured")
+    return
+  end
+
   if self.config.token == nil or self.config.token == "" then
     API.log("Error: No token configured")
     return

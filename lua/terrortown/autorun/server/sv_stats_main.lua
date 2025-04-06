@@ -1,7 +1,7 @@
 if not SERVER then return end
 
 local API = include("sv_stats_api_handler.lua")
-local Utils = include("terrortown/autorun/shared/sh_stats_utils.lua")
+local Json = include("terrortown/autorun/shared/sh_stats_json.lua")
 
 local function log(msg)
   print("[TTT2 Stats] " .. msg .. ".")
@@ -13,21 +13,17 @@ if not file.IsDir("ttt2_stats", "DATA") then
 end
 
 -- create config.txt if it doesn't exist
-if not file.Exists("ttt2_stats/config.txt", "DATA") then
-  local configJson = util.TableToJSON(API.config)
-  file.Write("ttt2_stats/config.txt", configJson)
+if not file.Exists("ttt2_stats/config.json", "DATA") then
+  local configJson = Json.encode(API.config)
+  file.Write("ttt2_stats/config.json", configJson)
 end
 
 -- read config.txt
-if file.Exists("ttt2_stats/config.txt", "DATA") then
-  local configJson = file.Read("ttt2_stats/config.txt", "DATA")
-  local config = util.JSONToTable(configJson)
-  API.config = {
-    website = config.website,
-    token = config.token,
-  }
+if file.Exists("ttt2_stats/config.json", "DATA") then
+  local configJson = file.Read("ttt2_stats/config.json", "DATA")
+  API.config = Json.decode(configJson)
 else
-  log("Could not find config.txt")
+  log("Could not find config.json")
 end
 
 -- open stats on command
