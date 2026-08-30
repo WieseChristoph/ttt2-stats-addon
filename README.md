@@ -1,28 +1,51 @@
-# TTT2 Stats
+# TTT2 Stats Addon
 
-Record TTT2 player stats and send them to the API.
+The Garry's Mod companion addon for [TTT Stats](https://github.com/WieseChristoph/ttt-stats). It records TTT2 rounds, player and weapon statistics, deaths, role changes, revivals, and the teams involved at the time of each event.
 
-# Installation
+Failed uploads are stored on disk and retried, so temporary website downtime does not lose completed rounds.
 
-## TTT2-Stats
+## Installation
 
-Clone this repository to you servers `garrysmod/addons` folder.
+Install the addon directly in the server's addon directory:
 
-# Configuration
+```bash
+cd garrysmod/addons
+git clone https://github.com/WieseChristoph/ttt2-stats-addon.git ttt2-stats
+```
 
-- Start your server with TTT2-Stats installed.
-- Go to `garrysmod/data/ttt2_stats` and open `config.txt`.
-- Add the URL to your website where you want to display the stats and where the API is hosted under `website`.
-- Restart your server.
-
-## Example configuration
+Start the server once to create `garrysmod/data/ttt2_stats/config.json`, then configure it:
 
 ```json
 {
-	"website": "https://stats.your-website.com/",
+    "website": "https://stats.example.com",
+    "token": "replace-with-the-server-token"
 }
 ```
 
-# Usage
+- `website` is the public URL of the [TTT Stats website](https://github.com/WieseChristoph/ttt-stats), without an API path.
+- `token` must exactly match the website's `STATS_INGEST_TOKEN`.
 
-You can type `!stats` in chat or press `F4` to open your stats website.
+Restart the server after changing the configuration. Pending rounds are kept under `garrysmod/data/ttt2_stats/queue` and uploaded automatically when the API is available again.
+
+## Loading screen and player access
+
+Add the loading-screen URL to the server configuration:
+
+```text
+sv_loadingurl "https://stats.example.com/loading?mapname=%m&steamid=%s"
+```
+
+The map and joining player's Steam ID let the loading screen show relevant statistics. Players can also type `!stats` or press `F4` to open the main website.
+
+## Development
+
+The addon has no build step or external Lua dependencies. Clone or symlink it into a local server's `garrysmod/addons` directory, run the [website development setup](https://github.com/WieseChristoph/ttt-stats#development), and use a local configuration:
+
+```json
+{
+    "website": "http://localhost:3000",
+    "token": "dev-ingest-token"
+}
+```
+
+Use the same token in the website's `.env`, then restart or reload the Garry's Mod server after Lua changes.
