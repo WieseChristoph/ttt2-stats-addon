@@ -52,7 +52,7 @@ local function cleanWebsite(website)
     return string.Trim(website):gsub("/+$", "")
 end
 
-function API.log(message)
+function API:log(message)
     print("[TTT2 Stats] " .. tostring(message))
 end
 
