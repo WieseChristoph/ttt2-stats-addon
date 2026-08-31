@@ -18,12 +18,14 @@ Start the server once to create `garrysmod/data/ttt2_stats/config.json`, then co
 ```json
 {
     "website": "https://stats.example.com",
-    "token": "replace-with-the-server-token"
+    "token": "replace-with-the-server-token",
+    "logLevel": "INFO"
 }
 ```
 
 - `website` is the public URL of the [TTT Stats website](https://github.com/WieseChristoph/ttt-stats), without an API path.
 - `token` must exactly match the website's `STATS_INGEST_TOKEN`.
+- `logLevel` can be `DEBUG`, `INFO`, `WARN`, or `ERROR`; it defaults to `INFO`.
 
 Restart the server after changing the configuration. Pending rounds are kept under `garrysmod/data/ttt2_stats/queue` and uploaded automatically when the API is available again.
 
@@ -44,7 +46,8 @@ The addon has no build step or external Lua dependencies. Clone or symlink it in
 ```json
 {
     "website": "http://localhost:3000",
-    "token": "dev-ingest-token"
+    "token": "dev-ingest-token",
+    "logLevel": "INFO"
 }
 ```
 
